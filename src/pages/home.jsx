@@ -5,16 +5,21 @@ import ProductCard from "../components/ProductCard";
 import NewArrivalGrid from "../components/NewArrivalGrid";
 import { FaArrowUp } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useproducts from "../hooks/useproducts";
 
 
 
 export default function home() {
+  
+  const{ products, isLoading, error } = useproducts("limit=15&skip=35");
+
+
   return (
     <div className="container-x">
     <Sectiontitle text="Today's"/>
     <h3 className="heading">Flash Sales</h3>
 
-    <Slider></Slider>
+    <Slider/>
 
     <Link to={'/products'} className="font-medium rounded-xl bg-primary center text-white h-14 w-56 mx-auto my-16"> View All Products </Link>
     
@@ -30,15 +35,33 @@ export default function home() {
 
     </div>
 <div className="flex gap-7">
-  
-  <ProductCard/>
-  <ProductCard/> 
-  <ProductCard/>
-  <ProductCard/>
+{products?.slice(0,4)?.map((item)=>(
+          <ProductCard 
+          image={item.thumbnail}
+          name={item.title}
+          price={item.price}
+          discountPercentage={item.discountPercentage}
+          rating={item.rating}
+        />
+      
+    
+    ))}
 
 </div>
 
     <Sectiontitle text="Our Products"/>
+    <div className="flex gap-7">
+{products?.slice(4,8)?.map((item)=>(
+          <ProductCard 
+          image={item.thumbnail}
+          name={item.title}
+          price={item.price}
+          discountPercentage={item.discountPercentage}
+          rating={item.rating}
+        />
+        ))}
+        
+        </div>
     <Sectiontitle text="Featured"/>
 
     <h3 className="heading">New Arrival</h3>
